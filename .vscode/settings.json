@@ -1,0 +1,8 @@
+{
+    "editor.rulers": [
+        92
+    ],
+    "[julia]": {
+        "editor.defaultFormatter": "singularitti.vscode-julia-formatter"
+    },
+}
