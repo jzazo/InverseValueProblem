@@ -1,5 +1,7 @@
 module ADMM
 
+using LinearAlgebra: norm
+
 """
     admm(x0, z0, u0, prox_f, prox_g, ϵ=1e-4)
 
@@ -13,25 +15,16 @@ Alternating Direction Method of Multipliers for the sum of two functions f and g
 
 """
 function admm(
-    x0::Vector,
-    z0::Vector,
-    u0::Vector,
-    prox_f::Function,
-    prox_g::Function,
-    ϵ::AbstractFloat=1e-4,
-)
-    xk, zk, uk = copy(x0), copy(z0), copy(u0)
-    xkk, zkk, ukk = xk + ϵ, zk + ϵ, uk + ϵ
+    x0::Vector{T}, u0::Vector{T}, prox_f, prox_g, ϵ::T=1e-4
+) where {T <: AbstractFloat}
+    xk, uk = copy(x0), copy(u0)
+    xkk, zkk, ukk = xk .+ ϵ, xk .+ ϵ, uk .+ ϵ
 
-    while (
-        norm(xkk - xk) / norm(xkk) +
-        norm(zkk - zk) / norm(zkk) +
-        norm(ukk - uk) / norm(ukk) >= ϵ
-    )
-        xk, zk, uk .= copy(xkk), copy(zkk), copy(ukk)
+    while norm(xkk - xk) / norm(xkk) + norm(ukk - uk) / norm(ukk) >= ϵ
+        xk, uk = copy(xkk), copy(ukk)
 
-        xkk = prox_f(zk - uk)
-        zkk = prox_g(xkk + uk)
+        zkk = prox_g(xk + uk)
+        xkk = prox_f(zkk - uk)
         ukk = uk + xkk - zkk
     end
     return xkk
