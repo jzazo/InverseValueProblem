@@ -1,0 +1,4 @@
+name = "InverseValueProblem"
+uuid = "9119f69d-0e20-4b89-8de1-208ce7235821"
+authors = ["jzazo <v-javierzazo@microsoft.com>"]
+version = "0.1.0"
