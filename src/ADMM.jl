@@ -5,17 +5,19 @@ using LinearAlgebra: norm
 """
     admm(x0, z0, u0, prox_f, prox_g, ϵ=1e-4)
 
-Alternating Direction Method of Multipliers for the sum of two functions f and g
+Alternating Direction Method of Multipliers for minimizing the sum of two functions f and g
 (also known as Douglas-Rachford algorithm).
 
 # Arguments
 - `x0::Vector`: starting estimate for x primal variable.
 - `z0::Vector`: starting estimate for z consensus variable.
 - `u0::Vector`: starting estimate for u dual variable.
+- `prox_f`: proximal operator of function f.
+- `prox_g`: proximal operator of function g.
 
 """
 function admm(
-    x0::Vector{T}, u0::Vector{T}, prox_f, prox_g, ϵ::T=1e-4
+    x0::Vector{T}, u0::Vector{T}, prox_f::Function, prox_g::Function, ϵ::T=1e-4
 ) where {T <: AbstractFloat}
     xk, uk = copy(x0), copy(u0)
     xkk, zkk, ukk = xk .+ ϵ, xk .+ ϵ, uk .+ ϵ
