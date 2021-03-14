@@ -1,7 +1,19 @@
 name = "InverseValueProblem"
 uuid = "9119f69d-0e20-4b89-8de1-208ce7235821"
-authors = ["jzazo <v-javierzazo@microsoft.com>"]
+authors = ["jzazo"]
 version = "0.1.0"
 
 [deps]
+Einsum = "b7d42ee7-0b51-5a75-98ca-779d3107e4c0"
+LIBLINEAR = "2d691ee1-e668-5016-a719-b2531b85e0f5"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
+
+[extras]
+JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+OSQP = "ab2f91bb-94b4-55e3-9ba0-7f65df51de79"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["JuMP", "LinearAlgebra", "Test", "OSQP"]
