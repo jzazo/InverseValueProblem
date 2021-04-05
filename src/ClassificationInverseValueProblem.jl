@@ -23,8 +23,8 @@ function min_fcepsilon(
     ckα = 1 / (1 + λ * α) * (ck + λ * α * cα)
     cost = λ / (1 + λ * α)
 
-    # Create new array B with appropriate dimensions:
-    b = Array{Float64}(undef, length(zi))
+    # Create new array bi = xi'ckα - zi for all i
+    b = zero(zi)
     for j in 1:size(xi, 1), i in 1:size(xi, 2)
         b[i] += xi[j, i] * ckα[j]
     end
