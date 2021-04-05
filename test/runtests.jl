@@ -46,7 +46,7 @@ function test_min_fpidelta()
     model = Model(OSQP.Optimizer)
     @variable(model, δi >= 0)
     @variable(model, πi[1:n])
-    @objective(model, Min, δi + 1 / (2 * λ) * sum((πi - πk).^2))
+    @objective(model, Min, δi + 1 / (2 * λ) * sum((πi - πk) .^ 2))
     @constraint(model, con, πi' * bi - zi - δi >= 0.0)
     optimize!(model)
 
@@ -59,7 +59,7 @@ test_min_fpidelta()
 
 
 """Minimizes f(ϵ, c; ck, cα, λ, xi) = ϵ'1 + 1/(2λ) ‖c - ck‖^2 + α/2 ‖c - cα‖^2,
-s.t., c'xi - zi ≤ ϵi, ϵi ≥ 0, for all i, c ∈ C.
+s.t., c'xi - zi ≤ ϵi, ϵi ≥ 0, for all i.
 
 """
 function test_fcepsilon()
@@ -75,7 +75,11 @@ function test_fcepsilon()
     model = Model(OSQP.Optimizer)
     @variable(model, ϵi[1:k] >= 0)
     @variable(model, c[1:n])
-    @objective(model, Min, sum(ϵi) + 1.0 / 2.0 / λ * sum((c - ck).^2) + α / 2.0 * sum((c - cα).^2))
+    @objective(
+        model,
+        Min,
+        sum(ϵi) + 1.0 / 2.0 / λ * sum((c - ck) .^ 2) + α / 2.0 * sum((c - cα) .^ 2)
+    )
     @constraint(model, con[i=1:k], xi[:, i]'c - zi[i] - ϵi[i] <= 0.0)
     optimize!(model)
 
